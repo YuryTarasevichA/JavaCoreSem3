@@ -1,0 +1,166 @@
+package seminar03;
+
+import java.time.LocalDate;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Worker[] workers = {
+                new Worker("Ivanov", "Ivan", "Ivanovich",
+                        "backend-developer", "+7-999-888-77-66", 100,
+                        LocalDate.of(1940, 10, 17)),
+                new Worker("Petrov", "Ivan", "Pavlovich", "manager",
+                        "+7-999-111-22-66", 200,
+                        LocalDate.of(1969, 11, 17)),
+                new Worker("Pavlov", "Ivan", "Pavlovich", "manager",
+                        "+7-999-111-22-66", 200,
+                        LocalDate.of(1980, 11, 17)),
+                new Worker("Denisov", "Ivan", "Pavlovich", "manager",
+                        "+7-999-111-22-66", 200,
+                        LocalDate.of(1962, 11, 17)),
+                new Worker("Nosov", "Oleg", "Pavlovich", "manager",
+                        "+7-999-111-22-66", 2000,
+                        LocalDate.of(1970, 11, 17))
+        };
+
+        System.out.println("Average age: " + getAverageAge(workers));
+        System.out.println("Average salary: " + getAverageSalary(workers));
+
+        Worker.addSalary(workers, 45, 50);
+
+        System.out.println(Arrays.toString(workers));
+
+        List<Worker> workerList = Arrays.asList(workers);
+
+        System.out.println("---".repeat(5));
+        Collections.sort(workerList);
+        System.out.println(workerList);
+        System.out.println("---".repeat(5));
+
+        workerList.sort(new WorkerSalaryComparator());
+        System.out.println(workerList);
+
+        System.out.println("---".repeat(5));
+
+        workerList.sort((o1, o2) -> o1.getAge() - o2.getAge());
+        System.out.println(workerList);
+    }
+
+    public static double getAverageAge(Worker[] array) {
+        int sumAge = 0;
+        for (Worker worker : array) {
+            sumAge += worker.getAge();
+        }
+        return sumAge / (double) array.length;
+    }
+
+    public static double getAverageSalary(Worker[] array) {
+        int sumSalary = 0;
+        for (Worker worker : array) {
+            sumSalary += worker.getSalary();
+        }
+        return sumSalary / (double) array.length;
+    }
+}
+
+@Override
+    public String toString() {
+        return "Worker{" +
+                "surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", position='" + position + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", salary=" + salary +
+                ", age=" + this.getAge() +
+                '}';
+    }
+
+    new Worker("Ivan", "Ivanov", "Ivanovich",
+                            "engineer", "+375-29-321-12-43",
+                            1500, LocalDate.of(2000, 12, 15)),
+                    new Worker("Yury", "Yurkin", "Yurovich",
+                            "programer (beck-end)", "+375-29-567-42-45",
+                            1600, LocalDate.of(1989, 12, 15)),
+                    new Worker("Tolik", "Potapov", "Andreevich",
+                            "programer (front-end)", "+375-29-897-66-32",
+                            1600, LocalDate.of(1990, 3, 7)),
+                    new Worker("Masha", "Mirkina", "Mihailovna",
+                            "manager", "+375-25-567-54-45",
+                            2200, LocalDate.of(1996, 4, 29))
+
+
+                            @Override
+                                public int compare(Worker w1, Worker w2) {
+                                    return w1.getLastName().compareTo(w2.getLastName());
+
+
+
+
+
+      // Реализация 3 задачи домашнего задания (давать задачи сотрудникам)
+
+    Scanner scanner = new Scanner(System.in);
+            int choice;
+            System.out.println("Задать задачу - нажмите 1 ");
+            System.out.println("Задать задачу от менеджера - нажмите 2 ");
+            System.out.println("Менеджер берёт задачу себе - нажмите 3 ");
+            System.out.println("Покинуть программу - нажмите 4 или любую другую клавишу ");
+            choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1: {
+                    System.out.println("Выберите сотрудника, которому хотите вручить задачу: ");
+                    for (Worker worker : workers) {
+                        System.out.println(worker.toString());
+                    }
+                    String selectedWorkerName = scanner.nextLine();
+                    for (Worker worker : workers) {
+                        if (worker.getName().equals(selectedWorkerName) || worker.getLastname().equals(selectedWorkerName) ||
+                                worker.getFirstname().equals(selectedWorkerName)) {
+                            selectedWorker = worker;
+                            break;
+                        }
+                    }
+                    if (selectedWorker != null) {
+                        selectedWorker.assignTask(new Task());
+                    } else {
+                        System.out.println("Не верное имя сотрудника, повторите попытку");
+                    }
+                    break;
+                }
+                case 2: {
+                    for (Worker worker : workers) {
+                        if (worker instanceof Manager) {
+                            manager = (Manager) worker;
+                            break;
+                        }
+                    }
+                    System.out.println("Выберите сотрудника, которому хотите вручить задачу: ");
+                    for (Worker worker : workers) {
+                        System.out.println(worker.toString());
+                    }
+                    String selectedWorkerName = scanner.nextLine();
+                    for (Worker worker : workers) {
+                        if (worker.getName().equals(selectedWorkerName) || worker.getLastname().equals(selectedWorkerName) ||
+                                worker.getFirstname().equals(selectedWorkerName)) {
+                            selectedWorker = worker;
+                            break;
+                        }
+                    }
+                    if (selectedWorker != null) {
+                        manager.assignTask(new Task(), selectedWorker);
+                    } else {
+                        System.out.println("Не верное имя сотрудника, повторите попытку");
+                    }
+                    break;
+                }
+                case 3: {
+                    System.out.println("Выбрать задачу для руководителя");
+                    Task task = new Task();
+                    manager.takeTask(task);
+                    break;
+                }
+                case 4:
+                    break;
+
+            }
